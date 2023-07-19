@@ -6,6 +6,7 @@ const connectDB=require("./config/db")
 const userRoutes=require("./Routes/userRoutes")
 const chatRoutes=require("./Routes/chatRoutes")
 const Message=require("./Models/MessageModel")
+const path=require("path")
 
 const cors=require("cors")
 const ws = require('ws');
@@ -31,7 +32,10 @@ credentials: true,}))
 app.use(cookieparser())
 app.use("/api/user",userRoutes)
 app.use("/api/chat",chatRoutes)
- 
+ app.use(express.static(path.join(__dirname,"./Client/build")))
+ app.get("*",function(req,res){
+  res.sendFile(path.join(__dirname,"./Client/build/index.html"))
+ })
   // module.exports={ getUserDataFromRequest};
 // app.get("/api/chat/:id",(req,res)=>{
 //     const id = parseInt(req.params.id);
